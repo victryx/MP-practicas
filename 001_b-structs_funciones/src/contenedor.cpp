@@ -40,13 +40,21 @@ Contenedor obtienePaquetes(const Contenedor &c, int origen) {
 void ordenar(Contenedor &c){
     for (int i = 0; i < c.index; i++) {
         for (int j = i; j < c.index; j++) {
-            if (c.lista[i].origen > c.lista[j].origen) {
+            bool ordenOrigen = c.lista[i].origen > c.lista[j].origen;
+            bool ordenDestino = c.lista[i].origen == c.lista[j].origen && c.lista[i].destino > c.lista[j].destino;
+
+            if (ordenOrigen || ordenDestino) {
                 std::swap(c.lista[i], c.lista[j]);
+            }
+
+            /*
+            if (c.lista[i].origen > c.lista[j].origen) {
             } 
             if (c.lista[i].origen == c.lista[j].origen
                         && c.lista[i].destino > c.lista[j].destino) {
-               std::swap(c.lista[i], c.lista[j]);
+                std::swap(c.lista[i], c.lista[j]);
             }
+            */
         }
     }
 }

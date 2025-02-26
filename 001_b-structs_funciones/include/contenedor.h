@@ -7,7 +7,7 @@
 struct Contenedor {
     static const int MAX = 100;
     Paquete lista[MAX];
-    int peso;
+    int peso = 0;
     int index = 0;
 };
 
