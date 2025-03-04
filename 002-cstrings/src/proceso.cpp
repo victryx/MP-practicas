@@ -7,7 +7,7 @@ bool sonIguales(const char cad1[], const char cad2[]) {
     int i = 0;
     while ('\0' != cad1[i] && '\0' != cad2[i]) {
         if (cad1[i] != cad2[i]) {
-            return false;
+            return false; // un solo return
         }
         i++;
     }
@@ -25,6 +25,7 @@ int longitud(const char cad[]) {
 
 // Esta solución asume que la entrada está compuesta por caracteres
 // ASCII básicos
+// TODO fix (esto tiene que devolver los caracteres que aparecen UNA SOLA VEZ)
 int carsUnicos(const char cad1[]) {
     int chars[128] = {0};
     int unicos = 0;
@@ -57,7 +58,7 @@ bool anagrama(const char cad1[],const char cad2[]) {
 
     for (int i = 0; i < len; i++) {
         if (charsCad1[i] != charsCad2[i]) {
-            return false;
+            return false; // TODO solo 1 return
         }
     }
     
@@ -103,7 +104,7 @@ bool anagramaOrdenando(const char cad1[], const char cad2[]) {
     int i = 0;
     while (copia1[i] != '\0') {
         if (copia1[i] != copia2[i]) {
-            return false;
+            return false; // Un solo return
         }
         i++;
     }
@@ -120,7 +121,7 @@ bool anagramaOrdenando(const char cad1[], const char cad2[]) {
  */
 
 // Asumimos que la entrada no tiene secuencias de más de 9 caracteres
-void compress2(const char frase[], char salida []) {
+void compress2(const char frase[], char salida []) { // estás deben ser las funciones compress (sin el 2)
     int left = 0;
     int right = 0;
     int outIndex = 0;
@@ -195,7 +196,7 @@ void decompress(const char frase[], char salida[]) {
         // Ahora obtenemos los dígitos
         int factor = 1;
         int amount = 0;
-        while (isDigit(frase[i])) {
+        while (isDigit(frase[i])) { // TODO fix :(
             amount += (frase[i] - '0') * factor;
             factor *= 10;
             i++;
