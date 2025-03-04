@@ -190,6 +190,37 @@ void compress(const char frase[], char salida []) {
 }
 
 // esta versión admite secuencias de más de 9 caracteres
+// TODO Aquí usar ATOI para evitar complejidad
+// void decompress(const char frase[], char salida[]) {
+//     int i = 0;
+//     int outIndex = 0;
+//     while (frase[i] != '\0') {
+//         char ch = frase[i];     // Esto es la letra
+//         i++;                    // Debería estar seguida por uno o más dígitos
+
+//         // Ahora obtenemos los dígitos
+//         int factor = 1;
+//         int amount = 0;
+//         int j = i;
+
+//         while (isDigit(frase[j])) {
+//             j++;
+//         }
+
+//         for (int k = j-1; k >= i; k--) {
+//             amount += (frase[k] - '0') * factor;
+//             factor *= 10;
+//         }
+
+//         i = j;
+
+//         for (int i = 0; i < amount; i++){
+//             salida[outIndex++] = ch;
+//         }
+//     }
+//     salida[outIndex] = '\0';
+// }
+
 void decompress(const char frase[], char salida[]) {
     int i = 0;
     int outIndex = 0;
@@ -198,22 +229,19 @@ void decompress(const char frase[], char salida[]) {
         i++;                    // Debería estar seguida por uno o más dígitos
 
         // Ahora obtenemos los dígitos
-        int factor = 1;
-        int amount = 0;
         int j = i;
 
+        char digits[4];
         while (isDigit(frase[j])) {
+            digits[j - i] = frase[j];
             j++;
         }
-
-        for (int k = j-1; k >= i; k--) {
-            amount += (frase[k] - '0') * factor;
-            factor *= 10;
-        }
+        digits[j - i] = '\0';
+        int amount = atoi(digits);
 
         i = j;
 
-        for (int i = 0; i < amount; i++){
+        for (int k = 0; k < amount; k++){
             salida[outIndex++] = ch;
         }
     }
