@@ -126,7 +126,7 @@ bool anagramaOrdenando(const char cad1[], const char cad2[]) {
  */
 
 // Asumimos que la entrada no tiene secuencias de más de 9 caracteres
-void compress(const char frase[], char salida []) {
+void compress2(const char frase[], char salida []) {
     int left = 0;
     int right = 0;
     int outIndex = 0;
@@ -144,7 +144,7 @@ void compress(const char frase[], char salida []) {
 }
 
 // Asumimos que como mucho se comprimen 9 caracteres
-void decompress(const char frase[], char salida[]) {
+void decompress2(const char frase[], char salida[]) {
     int i = 0;
     int outIndex = 0;
     while (frase[i] != '\0') {
@@ -164,7 +164,7 @@ bool isDigit(char ch) {
 }
 
 // esta versión admite secuencias de más de 9 caracteres
-void compress2(const char frase[], char salida []) {
+void compress(const char frase[], char salida []) {
     int left = 0;
     int right = 0;
     int outIndex = 0;
@@ -190,7 +190,7 @@ void compress2(const char frase[], char salida []) {
 }
 
 // esta versión admite secuencias de más de 9 caracteres
-void decompress2(const char frase[], char salida[]) {
+void decompress(const char frase[], char salida[]) {
     int i = 0;
     int outIndex = 0;
     while (frase[i] != '\0') {
@@ -200,11 +200,18 @@ void decompress2(const char frase[], char salida[]) {
         // Ahora obtenemos los dígitos
         int factor = 1;
         int amount = 0;
-        while (isDigit(frase[i])) { // TODO fix :(
-            amount += (frase[i] - '0') * factor;
-            factor *= 10;
-            i++;
+        int j = i;
+
+        while (isDigit(frase[j])) {
+            j++;
         }
+
+        for (int k = j-1; k >= i; k--) {
+            amount += (frase[k] - '0') * factor;
+            factor *= 10;
+        }
+
+        i = j;
 
         for (int i = 0; i < amount; i++){
             salida[outIndex++] = ch;

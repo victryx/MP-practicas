@@ -65,7 +65,7 @@ TEST_CASE("Prueba Anagramas") {
         cad2[0] = 'G';
         CHECK(anagrama(cad1, cad2) == false);
 
-        strcpy(cad2,"cccaaabbba");
+        strcpy(cad2,"cccaaabbb");
         CHECK(anagrama(cad1, cad2) == true);
 
         cad2[0] = TERMINADOR;
@@ -123,6 +123,13 @@ TEST_CASE("Prueba Compress/decompress") {
         CHECK(longitud(cad2) == 0);
         decompress(cad2, cad3);
         CHECK(longitud(cad3) == 0);
+
+        // TODO: borrar esto
+        strcpy(cad1, "aaaaaaaaaaaaaabbbbbbbbbbbbbcc");
+        compress(cad1, cad2);
+        CHECK(sonIguales(cad2, "a14b13c2"));
+        decompress(cad2, cad3);
+        CHECK(sonIguales(cad1, cad3));
 
     }
 }
