@@ -5,13 +5,15 @@
 
 bool sonIguales(const char cad1[], const char cad2[]) {
     int i = 0;
-    while ('\0' != cad1[i] && '\0' != cad2[i]) {
+    bool equal = true;
+    while ('\0' != cad1[i] && '\0' != cad2[i] && equal) {
         if (cad1[i] != cad2[i]) {
-            return false; // un solo return
+            equal = false;
         }
         i++;
     }
-    return '\0' == cad1[i] && '\0' == cad2[i];
+
+    return '\0' == cad1[i] && '\0' == cad2[i] && equal;
 }
 
 int longitud(const char cad[]) {
@@ -25,19 +27,23 @@ int longitud(const char cad[]) {
 
 // Esta solución asume que la entrada está compuesta por caracteres
 // ASCII básicos
-// TODO fix (esto tiene que devolver los caracteres que aparecen UNA SOLA VEZ)
 int carsUnicos(const char cad1[]) {
     int chars[128] = {0};
-    int unicos = 0;
+    int uniques = 0;
     int i = 0;
+
     while ('\0' != cad1[i]) {
-        if (0 == chars[cad1[i]]) {
-            unicos++;
-        }
         chars[cad1[i]]++;
         i++;
     }
-    return unicos;
+
+    for (i = 0; i < 128; i++) {
+        if (chars[i] == 1) {
+            uniques++;
+        }
+    }
+
+    return uniques;
 }
 
 // Esta solución asume que la entrada está compuesta por caracteres
@@ -46,23 +52,22 @@ int carsUnicos(const char cad1[]) {
 bool anagrama(const char cad1[],const char cad2[]) {
     int charsCad1[128] = {0};
     int charsCad2[128] = {0};
-    int len = longitud(cad1);
+    int i = 0;
+    bool isAnagram = true;
 
-    for (int i = 0; i < len; i++) {
+    while (cad1[i] != '\0') {
         charsCad1[cad1[i]]++;
-    }
-    
-    for (int i = 0; i < len; i++) {
         charsCad2[cad2[i]]++;
+        i++;
     }
 
-    for (int i = 0; i < len; i++) {
+    for (i = 0; i < 128 && isAnagram; i++) {
         if (charsCad1[i] != charsCad2[i]) {
-            return false; // TODO solo 1 return
+            isAnagram = false;
         }
     }
     
-    return true;
+    return isAnagram;
 }
 
 void sortArray(char arr[]) {
@@ -121,7 +126,7 @@ bool anagramaOrdenando(const char cad1[], const char cad2[]) {
  */
 
 // Asumimos que la entrada no tiene secuencias de más de 9 caracteres
-void compress2(const char frase[], char salida []) { // estás deben ser las funciones compress (sin el 2)
+void compress(const char frase[], char salida []) {
     int left = 0;
     int right = 0;
     int outIndex = 0;
@@ -136,11 +141,10 @@ void compress2(const char frase[], char salida []) { // estás deben ser las fun
         left = right;
     }
     salida[outIndex] = '\0';
-    
 }
 
 // Asumimos que como mucho se comprimen 9 caracteres
-void decompress2(const char frase[], char salida[]) {
+void decompress(const char frase[], char salida[]) {
     int i = 0;
     int outIndex = 0;
     while (frase[i] != '\0') {
@@ -160,7 +164,7 @@ bool isDigit(char ch) {
 }
 
 // esta versión admite secuencias de más de 9 caracteres
-void compress(const char frase[], char salida []) {
+void compress2(const char frase[], char salida []) {
     int left = 0;
     int right = 0;
     int outIndex = 0;
@@ -186,7 +190,7 @@ void compress(const char frase[], char salida []) {
 }
 
 // esta versión admite secuencias de más de 9 caracteres
-void decompress(const char frase[], char salida[]) {
+void decompress2(const char frase[], char salida[]) {
     int i = 0;
     int outIndex = 0;
     while (frase[i] != '\0') {
