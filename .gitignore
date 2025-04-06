@@ -1,3 +1,11 @@
 **/bin
 **/obj
 **/entrega
+**/.vscode
+**/build
+**/dist
+**/nbproject
+**/.dep.inc
+
+/004_b-imagen/build/
+/004_b-imagen/dist/
