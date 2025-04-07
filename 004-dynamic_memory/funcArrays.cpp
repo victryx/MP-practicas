@@ -16,30 +16,6 @@ void printArr(int *arr, int size) {
     std::cout << std::endl;
 }
 
-int main() {
-    int arr1Size = 5;
-    int *arr1 = new int[arr1Size]{1,2,3,4,5};
-    int arr2Size = 10;
-    int *arr2 = new int[arr2Size]{0,2,5,67,87,9,8,7,6,10};
-
-    int intersectionSize = 0;
-    int *intersection = interseccion(arr1, arr2, arr1Size, arr2Size, intersectionSize);
-
-    int unionSize = 0;
-    int *unionArr = unir(arr1, arr2, arr1Size, arr2Size, unionSize);
-
-    printArr(arr1, arr1Size);
-    printArr(arr2, arr2Size);
-    printArr(intersection, intersectionSize);
-    printArr(unionArr, unionSize);
-
-    delete [] arr1;
-    delete [] arr2;
-    delete [] intersection;
-    delete [] unionArr;
-    return 0;
-}
-
 void resizeArray(int *&arr, int util, int &size, int newSize) {
     if (newSize >= util) {
         int *ampliado = new int[newSize];
@@ -128,5 +104,5 @@ void multiplos(const int *v, int n, int nro, int *&multiplos, int &multiplosSize
         }
     }
     multiplosSize = multiplosIndex;
-    resizeArray(multiplos, multiplosSize, n, multiplosSize);
+    resizeArray(multiplos, multiplosSize, n, multiplosSize); 
 }
