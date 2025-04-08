@@ -133,8 +133,8 @@ void espejoH(const Imagen & origen, Imagen & destino) {
 /// \return true, si son iguales. False en caso contrario
 bool sonIguales(const Imagen & img1, const Imagen & img2) {
     bool iguales = img1.nc == img2.nc && img1.nf == img2.nf;
-    for (int i = 0; i < img1.nc && iguales; i++) {
-        for (int j = 0; j < img1.nf && iguales; j++) {
+    for (int i = 0; i < img1.nf && iguales; i++) {
+        for (int j = 0; j < img1.nc && iguales; j++) {
             iguales = img1.M[i][j] == img2.M[i][j];
         }
     }
