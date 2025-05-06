@@ -46,6 +46,10 @@ void Vector2D::normalizar() {
     setXY(getX() / mod, getY() / mod);
 }
 
-std::string Vector2D::toString() {
+float Vector2D::distancia(const Vector2D &otro) const {
+    return Vector2D(getX() - otro.getX(), getY() - otro.getY()).modulo();
+}
+
+std::string Vector2D::toString() const {
     return "(" + std::to_string(getX()) + "," + std::to_string(getY()) + ")";
 }

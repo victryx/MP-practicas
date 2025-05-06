@@ -53,9 +53,14 @@ public:
     /// para conseguir un vector con módulo 1.
     void normalizar();
 
+    /// @brief Calcula la distancia entre este vector y otro
+    /// @param otro 
+    /// @return 
+    float distancia(const Vector2D &otro) const;
+
     /// @brief Devuelve los datos de este vector como un string
     /// @return Un string con formato "(x,y)"
-    std::string toString();
+    std::string toString() const;
 };
 
 #endif

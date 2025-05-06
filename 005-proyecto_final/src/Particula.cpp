@@ -4,19 +4,19 @@
 #include "iostream" // testing
 
 Particula::Particula(int tipoPart) {
-    std::cout << this->pos.toString(); // TODO remove
     if (tipoPart == 0) {
         pos = vectorAleatorio(0, MAX_X, 0, MAX_Y);
         acel = vectorAleatorio(0, MAX_ACC, 0, MAX_ACC);
         veloc = vectorAleatorio(0, MAX_VEL, 0, MAX_VEL);
         radio = aleatorio(MIN_R, MAX_R);
     } else {
-        // Vector2D cero(0,0);
-        // pos = acel = veloc = cero;
+        pos = Vector2D(0,0);
+        acel = Vector2D(0,0);
+        veloc = Vector2D(0,0);
         radio = MIN_R;
     }
-    std::cout << pos.toString(); // TODO remove
-    Vector2D
+
+    tipo = tipoPart;
 }
 
 Particula::Particula(const Vector2D &_pos, const Vector2D &_acel, const Vector2D &_veloc, float _radio, int _tipo)
@@ -50,29 +50,62 @@ void Particula::setVeloc(const Vector2D &_veloc) {
     this->veloc = _veloc;
 }
 
-int min(int a, int b) {
-    return a < b ? a : b; // el ternario es medio guarrillo, se puede usar??
+void Particula::mover() {
+    veloc.sumar(acel);
+    ajustarVelocidad();
+
+    pos.sumar(veloc);
+    ajustarPosicion();
 }
 
-// Se asegura de que los vectores estén dentro de los límites
-void checkOutOfBounds() {
+void Particula::rebotar() {
+    bool norte = pos.getY() - radio <= 0;
+    bool sur = pos.getY() + radio >= MAX_Y;
+    bool este = pos.getX() + radio >= MAX_X;
+    bool oeste = pos.getX() - radio <= 0;
+
+    if (norte || sur) {
+        veloc.setY(veloc.getY() * -1);
+    }
+
+    if (este || oeste) {
+        veloc.setX(veloc.getX() * -1);
+    }
+}
+
+bool Particula::colision(const Particula &otro) {
+    // distancia <= suma de radios
+    return pos.distancia(otro.getPos()) <= radio + otro.getRadio();
+}
+
+// void swap(Vector2D &v1, Vector2D &v2) {
+//     Vector2D aux = v1; // constructor de copia de Vector2D
+//     v1 = v2; // operator=()
+//     v2 = aux; // operator=()
+// }
+
+void Particula::choque(Particula &otro) {
+
+}
+
+std::string Particula::toString() const {
+    return "{" + pos.toString() + ", " + veloc.toString() + ", " + acel.toString() 
+        + ", " + std::to_string(radio) + ", " + std::to_string(tipo) + "}";
     
 }
 
-// Duda: no habría que usar getters y setters?
-// pero entonces se complica más el código, porque los getters
-// no están devolviendo referencias, ¿deberían devolver Ve
-void Particula::mover() {
-    // 1. Sumar la aceleración a la velocidad
-    veloc.sumar(acel);
+void Particula::ajustarPosicion() {
+    float maximoX = MAX_X - radio;
+    float minimoX = radio;
 
-    // 2. 
-    veloc.setX(min(veloc.getX(), MAX_VEL));
-    veloc.setY(min(veloc.getY(), MAX_VEL));
+    float maximoY = MAX_Y - radio;
+    float minimoY = radio;
 
-    // 3. Sumar velocidad a posición
-    pos.sumar(veloc);
-    // TODO: comprobar que la posición este dentro de los límites
-    // ¿esto lo hace rebotar, verdad?
-    rebotar();
+    pos.setX(ajustarValor(pos.getX(), minimoX, maximoX));
+    pos.setY(ajustarValor(pos.getY(), minimoY, maximoY));
+}
+
+void Particula::ajustarVelocidad() {
+    veloc.setX( ajustarValor(veloc.getX(), -MAX_VEL, MAX_VEL) );
+    veloc.setY( ajustarValor(veloc.getY(), -MAX_VEL, MAX_VEL) );
 }

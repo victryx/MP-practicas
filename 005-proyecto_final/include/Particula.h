@@ -12,6 +12,7 @@ private:
     Vector2D veloc;
     float radio;
     int tipo;
+
 public:
 
     /// @brief Constructor de partícula
@@ -34,6 +35,7 @@ public:
     void setPos(const Vector2D &_pos);
     void setAcel(const Vector2D &_acel);
     void setVeloc(const Vector2D &_veloc);
+    void setRadio(int radio);
 
     /// @brief Actualiza la posición de la partícula en función de su 
     /// aceleración y de su velocidad.
@@ -54,6 +56,12 @@ public:
     void choque(Particula &otro);
 
     std::string toString() const;
+
+    /// @brief Ajusta la posición de la partícula a los límites del mundo
+    void ajustarPosicion();
+
+    /// @brief Ajusta la velocidad de la partícula a los límites establecidos
+    void ajustarVelocidad();
 };
 
 
