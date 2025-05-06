@@ -32,8 +32,28 @@ public:
     float getRadio() const; 
 
     void setPos(const Vector2D &_pos);
-    void setAcel(const Vector2D &_pos);
+    void setAcel(const Vector2D &_acel);
+    void setVeloc(const Vector2D &_veloc);
 
+    /// @brief Actualiza la posición de la partícula en función de su 
+    /// aceleración y de su velocidad.
+    void mover();
+
+    /// @brief Actualiza la velocidad de la partícula SI esta está colisionando 
+    /// con alguno de los límites del mundo
+    void rebotar();
+
+    /// @brief Comprueba si esta partícula esta colisionando con otra
+    /// @param otro partícula con la que se comprueba la colisión
+    /// @return true si esta partícula colisiona con la que se pasa como parámetro
+    ///         false en caso contrario
+    bool colision(const Particula &otro);
+
+    /// @brief Simula el choque elástico entre dos partículas
+    /// @param otro 
+    void choque(Particula &otro);
+
+    std::string toString() const;
 };
 
 
