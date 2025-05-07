@@ -37,7 +37,11 @@ float max(float a, float b);
 /// @return 
 float ajustarValor(float val, float limiteInferior, float limiteSuperior);
 
-
+/// @brief 
+/// @param a 
+/// @param b 
+/// @param epsilon 
+/// @return 
 bool floatEquals(float a, float b, float epsilon);
 
 #endif

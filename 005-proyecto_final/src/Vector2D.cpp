@@ -2,6 +2,7 @@
 #include <cmath>
 #include <string>
 
+// TODO: cambiar getters por accesos a los datos miembros, como está en Particula.cpp
 Vector2D::Vector2D(float _x, float _y) {
     this->x = _x;
     this->y = _y;
@@ -29,8 +30,7 @@ void Vector2D::setXY(float _x, float _y) {
 }
 
 void Vector2D::sumar(const Vector2D &otro) {
-    setX(this->getX() + otro.getX());
-    setY(this->getY() + otro.getY());
+    setXY(this->getX() + otro.getX(), this->getY() + otro.getY());
 }
 
 void Vector2D::escalar(float val) {

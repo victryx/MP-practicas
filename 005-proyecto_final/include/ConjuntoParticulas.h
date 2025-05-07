@@ -29,24 +29,31 @@ public:
 
     int getCapacidad();
 
-    void agregar(const Particula &ppart);
+    void agregar(const Particula &part);
 
     /// @brief Elimina la partícula en la posición pos del array 
     /// @param pos 
     /// @return La partícula eliminada
-    Particula borrar(int pos);
+    void borrar(int pos);
 
     /// @brief Devuelve una referencia a la partícula en la posición pos del array
     /// @param pos 
     /// @return 
-    Particula& obtener(int pos);
+    Particula &obtener(int pos);
 
     Particula reemplazar(int pos, const Particula &part);
 
+    /// @brief Si tipo = 0, se le aplica a cada partícula el método mover.
+    ///        si tipo = 1, se le aplica a cada partícula el método mover seguido de rebotar.
+    ///        si tipo = 2, se le aplica a cada partícula el método mover seguido de wrap.
+    /// @param tipo Tipo de movimiento, por defecto 0
     void mover(int tipo = 0);
 
+    /// @brief Por cada PAR de partículas, evalua si estas colisionan y chocan
     void gestionarColisiones();
 
+    /// @brief Devuelve una representación en texto del objeto
+    /// @return 
     std::string toString();
 
 };

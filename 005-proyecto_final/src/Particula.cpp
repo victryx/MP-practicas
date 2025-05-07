@@ -2,6 +2,7 @@
 #include "params.h"
 #include "utils.h"
 
+// TODO: pensar mejor métodos rebotar y wrap
 Particula::Particula(int tipoPart) {
     if (tipoPart == 0) {
         pos = vectorAleatorio(0, MAX_X, 0, MAX_Y);
