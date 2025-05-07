@@ -1,7 +1,6 @@
 #include "Particula.h"
 #include "params.h"
 #include "utils.h"
-#include "iostream" // testing
 
 Particula::Particula(int tipoPart) {
     if (tipoPart == 0) {
@@ -74,18 +73,32 @@ void Particula::rebotar() {
 }
 
 bool Particula::colision(const Particula &otro) {
-    // distancia <= suma de radios
     return pos.distancia(otro.getPos()) <= radio + otro.getRadio();
 }
 
-// void swap(Vector2D &v1, Vector2D &v2) {
-//     Vector2D aux = v1; // constructor de copia de Vector2D
-//     v1 = v2; // operator=()
-//     v2 = aux; // operator=()
-// }
-
 void Particula::choque(Particula &otro) {
+    std::swap(veloc, otro.veloc);
+    std::swap(acel, otro.acel);
+}
 
+void Particula::wrap() {
+    bool norte = pos.getY() - radio <= 0;
+    bool sur = pos.getY() + radio >= MAX_Y;
+    bool este = pos.getX() + radio >= MAX_X;
+    bool oeste = pos.getX() - radio <= 0;
+
+    if (norte) {
+        pos.setY(MAX_Y - radio - 0.1);
+    } 
+    if (sur) {
+        pos.setY(0 + radio + 0.1);
+    }
+    if (este) {
+        pos.setX(MAX_X - radio - 0.1);
+    }
+    if (oeste) {
+        pos.setX(0 + radio + 0.1);
+    }
 }
 
 std::string Particula::toString() const {

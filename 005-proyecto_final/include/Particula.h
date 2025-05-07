@@ -55,7 +55,13 @@ public:
     /// @param otro 
     void choque(Particula &otro);
 
+    /// @brief Transforma la partícula en string
+    /// @return Una representación en texto de la partícula
     std::string toString() const;
+
+    /// @brief Si la partícula está colisionando con uno de los bordes, la mueve
+    ///        al borde opuesto
+    void wrap();
 
     /// @brief Ajusta la posición de la partícula a los límites del mundo
     void ajustarPosicion();
@@ -63,6 +69,5 @@ public:
     /// @brief Ajusta la velocidad de la partícula a los límites establecidos
     void ajustarVelocidad();
 };
-
 
 #endif
