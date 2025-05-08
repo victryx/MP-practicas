@@ -2,7 +2,6 @@
 #include <cmath>
 #include <string>
 
-// TODO: cambiar getters por accesos a los datos miembros, como está en Particula.cpp
 Vector2D::Vector2D(float _x, float _y) {
     this->x = _x;
     this->y = _y;
@@ -30,26 +29,26 @@ void Vector2D::setXY(float _x, float _y) {
 }
 
 void Vector2D::sumar(const Vector2D &otro) {
-    setXY(this->getX() + otro.getX(), this->getY() + otro.getY());
+    setXY(this->x + otro.x, this->y + otro.y);
 }
 
 void Vector2D::escalar(float val) {
-    setXY(getX() * val, getY() * val);
+    setXY(x * val, y * val);
 }
 
 float Vector2D::modulo() const {
-    return sqrtf(powf(getX(), 2) + powf(getY(), 2));
+    return sqrtf(powf(x, 2) + powf(y, 2));
 }
 
 void Vector2D::normalizar() {
     float mod = modulo();
-    setXY(getX() / mod, getY() / mod);
+    setXY(x / mod, y / mod);
 }
 
 float Vector2D::distancia(const Vector2D &otro) const {
-    return Vector2D(getX() - otro.getX(), getY() - otro.getY()).modulo();
+    return Vector2D(this->x - otro.x, this->y - otro.y).modulo();
 }
 
 std::string Vector2D::toString() const {
-    return "(" + std::to_string(getX()) + "," + std::to_string(getY()) + ")";
+    return "(" + std::to_string(x) + "," + std::to_string(y) + ")";
 }

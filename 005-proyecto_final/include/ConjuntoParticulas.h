@@ -33,15 +33,19 @@ public:
 
     /// @brief Elimina la partícula en la posición pos del array 
     /// @param pos 
-    /// @return La partícula eliminada
+    /// @pre 0 <= pos < utiles
     void borrar(int pos);
 
     /// @brief Devuelve una referencia a la partícula en la posición pos del array
-    /// @param pos 
+    /// @param pos posición de la partícula
     /// @return 
+    /// @pre 0 <= pos < utiles
     Particula &obtener(int pos);
 
-    Particula reemplazar(int pos, const Particula &part);
+    /// @brief Sobreescribe la particula en la posición pos por la particula part
+    /// @param pos Posición de la particula sobreescrita
+    /// @param part Nueva partícula
+    void reemplazar(int pos, const Particula &part);
 
     /// @brief Si tipo = 0, se le aplica a cada partícula el método mover.
     ///        si tipo = 1, se le aplica a cada partícula el método mover seguido de rebotar.

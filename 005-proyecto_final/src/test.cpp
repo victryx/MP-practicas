@@ -1,4 +1,5 @@
 #include "Particula.h"
+#include "ConjuntoParticulas.h"
 #include <iostream>
 #include <cassert>
 #include <cmath>
@@ -11,7 +12,6 @@ int main(int argc, char const *argv[]) {
     srand(time(0));
     vector2D();
     utils();
-
 
     /*
     Particula p(0);
@@ -39,6 +39,7 @@ void vector2D() {
 
 void utils() {
     std::cout << "TEST: utils.h" << std::endl;
+
     float a = 0.12345;
     float b = 0.123;
     std::cout << fabsf(b - a) << std::endl;
