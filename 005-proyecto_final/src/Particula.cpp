@@ -1,8 +1,8 @@
 #include "Particula.h"
 #include "params.h"
 #include "utils.h"
+#include <iostream>
 
-// TODO: pensar mejor métodos rebotar y wrap
 Particula::Particula(int tipoPart) {
     if (tipoPart == 0) {
         pos = vectorAleatorio(0, MAX_X, 0, MAX_Y);
@@ -50,6 +50,10 @@ void Particula::setVeloc(const Vector2D &_veloc) {
     this->veloc = _veloc;
 }
 
+void Particula::setRadio(int _radio) {
+    this->radio = _radio;
+}
+
 void Particula::mover() {
     veloc.sumar(acel);
     ajustarVelocidad();
@@ -58,18 +62,32 @@ void Particula::mover() {
     ajustarPosicion();
 }
 
-void Particula::rebotar() {
-    bool norte = pos.getY() - radio <= 0;
-    bool sur = pos.getY() + radio >= MAX_Y;
-    bool este = pos.getX() + radio >= MAX_X;
-    bool oeste = pos.getX() - radio <= 0;
 
-    if (norte || sur) {
+bool Particula::chocaNorte() {
+    return pos.getY() - radio <= 0;
+}
+
+bool Particula::chocaSur() {
+    return pos.getY() + radio >= MAX_Y;
+}
+
+bool Particula::chocaEste() {
+    return pos.getX() + radio >= MAX_X;
+}
+
+bool Particula::chocaOeste() {
+    return pos.getX() - radio <= 0;
+}
+
+void Particula::rebotar() {
+    if (chocaNorte() || chocaSur()) {
         veloc.setY(veloc.getY() * -1);
+        acel.setY(acel.getY() * -1);
     }
 
-    if (este || oeste) {
+    if (chocaEste() || chocaOeste()) {
         veloc.setX(veloc.getX() * -1);
+        acel.setX(acel.getX() * -1);
     }
 }
 
@@ -83,22 +101,18 @@ void Particula::choque(Particula &otro) {
 }
 
 void Particula::wrap() {
-    bool norte = pos.getY() - radio <= 0;
-    bool sur = pos.getY() + radio >= MAX_Y;
-    bool este = pos.getX() + radio >= MAX_X;
-    bool oeste = pos.getX() - radio <= 0;
-
-    if (norte) {
-        pos.setY(MAX_Y - radio - 0.1);
+    float ajuste = 1.0F;
+    if (chocaNorte()) {
+        pos.setY(MAX_Y - radio - ajuste);
     } 
-    if (sur) {
-        pos.setY(0 + radio + 0.1);
+    if (chocaSur()) {
+        pos.setY(radio + ajuste);
     }
-    if (este) {
-        pos.setX(MAX_X - radio - 0.1);
+    if (chocaEste()) {
+        pos.setX(radio + ajuste);
     }
-    if (oeste) {
-        pos.setX(0 + radio + 0.1);
+    if (chocaOeste()) {
+        pos.setX(MAX_X - radio - ajuste);
     }
 }
 

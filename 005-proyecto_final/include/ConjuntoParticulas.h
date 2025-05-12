@@ -4,11 +4,11 @@
 #include "Particula.h"
 #include <string>
 
-const int TAM_BLOQUE = 3; // dentro de la clase?
+const int TAM_BLOQUE = 3; // dentro de la clase? sí
 
 class ConjuntoParticulas {
 private:
-    Particula* set = nullptr; // ¿hacer aquí la asignación es igual que ponerla al principio del constructor?
+    Particula* set = nullptr; // ¿hacer aquí la asignación es igual que ponerla al principio del constructor? sí
     int capacidad = 0;
     int utiles = 0;
 
@@ -25,9 +25,9 @@ public:
 
     ~ConjuntoParticulas();
 
-    int getUtiles();
+    int getUtiles() const;
 
-    int getCapacidad();
+    int getCapacidad() const;
 
     void agregar(const Particula &part);
 
@@ -40,7 +40,7 @@ public:
     /// @param pos posición de la partícula
     /// @return 
     /// @pre 0 <= pos < utiles
-    Particula &obtener(int pos);
+    const Particula &obtener(int pos) const;
 
     /// @brief Sobreescribe la particula en la posición pos por la particula part
     /// @param pos Posición de la particula sobreescrita

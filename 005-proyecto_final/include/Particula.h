@@ -13,6 +13,20 @@ private:
     float radio;
     int tipo;
 
+    bool chocaNorte();
+
+    bool chocaSur();
+
+    bool chocaEste();
+
+    bool chocaOeste();
+
+    /// @brief Ajusta la posición de la partícula a los límites del mundo
+    void ajustarPosicion();
+
+    /// @brief Ajusta la velocidad de la partícula a los límites establecidos
+    void ajustarVelocidad();
+
 public:
 
     /// @brief Constructor de partícula
@@ -35,7 +49,7 @@ public:
     void setPos(const Vector2D &_pos);
     void setAcel(const Vector2D &_acel);
     void setVeloc(const Vector2D &_veloc);
-    void setRadio(int radio);
+    void setRadio(int _radio);
 
     /// @brief Actualiza la posición de la partícula en función de su 
     /// aceleración y de su velocidad.
@@ -62,12 +76,6 @@ public:
     /// @brief Si la partícula está colisionando con uno de los bordes, la mueve
     ///        al borde opuesto
     void wrap();
-
-    /// @brief Ajusta la posición de la partícula a los límites del mundo
-    void ajustarPosicion();
-
-    /// @brief Ajusta la velocidad de la partícula a los límites establecidos
-    void ajustarVelocidad();
 };
 
 #endif

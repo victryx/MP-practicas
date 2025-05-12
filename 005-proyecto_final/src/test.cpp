@@ -8,6 +8,7 @@
 void vector2D();
 void utils();
 
+/*
 int main(int argc, char const *argv[]) {
     srand(time(0));
     vector2D();
@@ -25,10 +26,10 @@ int main(int argc, char const *argv[]) {
         set[i] = Particula();
         std::cout << set[i].toString() << std::endl;
     }
-        */
     
 }
 
+*/
 
 void vector2D() {
     Vector2D v1(7,8);

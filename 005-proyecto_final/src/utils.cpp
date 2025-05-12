@@ -10,6 +10,7 @@ float aleatorio(float min, float max) {
     return (r * rango + min);
 }
 
+// No hace falta
 Vector2D vectorAleatorio(float minX, float maxX, float minY, float maxY) {
     assert(minX <= maxX && minY <= maxY);
     int x = aleatorio(minX, maxX);
@@ -25,6 +26,7 @@ float max(float a, float b) {
     return a > b ? a : b;
 }
 
+// En partícula 
 float ajustarValor(float val, float limiteInferior, float limiteSuperior) {
     assert(limiteInferior <= limiteSuperior);
     return max(limiteInferior, min(limiteSuperior, val));

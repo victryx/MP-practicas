@@ -29,6 +29,9 @@ void ConjuntoParticulas::redimensiona(int nuevaCapacidad) {
 }
 
 ConjuntoParticulas::ConjuntoParticulas(int n) {
+    // TODO: creo que aquí hay un problema
+    utiles = capacidad = 0;
+    set = nullptr;
     if (n > 0) {
         utiles = capacidad = n;
         reservaMemoria();
@@ -36,10 +39,11 @@ ConjuntoParticulas::ConjuntoParticulas(int n) {
 }
 
 ConjuntoParticulas::ConjuntoParticulas(const ConjuntoParticulas &otro) {
-    this->capacidad = otro.capacidad;
+    this->capacidad = otro.capacidad; // esto va en copiar (copia todos los datos miembros)
     this->utiles = otro.utiles;
 
-    reservaMemoria();
+    reservaMemoria(); // aquí pasa como parámetro la capacidad
+    // primero RESERVA y luego COPIA
 
     for (int i = 0; i < utiles; i++) {
         this->set[i] = otro.set[i];
@@ -50,11 +54,11 @@ ConjuntoParticulas::~ConjuntoParticulas() {
     liberaMemoria();
 }
 
-int ConjuntoParticulas::getUtiles() {
+int ConjuntoParticulas::getUtiles() const {
     return utiles;
 }
 
-int ConjuntoParticulas::getCapacidad() {
+int ConjuntoParticulas::getCapacidad() const {
     return capacidad;
 }
 
@@ -66,23 +70,24 @@ void ConjuntoParticulas::agregar(const Particula &part) {
 }
 
 void ConjuntoParticulas::borrar(int pos) {
-    assert(pos >= 0 && pos < utiles);
-    std::swap(set[pos], set[utiles - 1]);
-    utiles--;
-
-    if (capacidad - utiles > TAM_BLOQUE) {
-        redimensiona(utiles);
+    if (pos >= 0 && pos < utiles) {
+        std::swap(set[pos], set[utiles - 1]);
+        utiles--;
+    
+        if (capacidad - utiles >= TAM_BLOQUE) {
+            redimensiona(utiles);
+        }
     }
 }
 
-Particula &ConjuntoParticulas::obtener(int pos) {
-    assert(pos >= 0 && pos < utiles);
+const Particula &ConjuntoParticulas::obtener(int pos) const {
+    assert(pos >= 0 && pos < utiles); // Comentado porque con assert no pasan los tests
     return set[pos];
 }
 
 void ConjuntoParticulas::reemplazar(int pos, const Particula &part) {
-    assert(pos >= 0 && pos < utiles);
-    set[pos] = part;
+    if (pos >= 0 && pos < utiles)
+        set[pos] = part;
 }
 
 void ConjuntoParticulas::mover(int tipo) {
@@ -97,12 +102,13 @@ void ConjuntoParticulas::mover(int tipo) {
     }
 }
 
-// TODO: no se si esto está bien
 void ConjuntoParticulas::gestionarColisiones() {
-    for (int i = 0; i < utiles; i++) {
-        for (int j = i+1; j < utiles; j++) {
+    for (int i = 0; i < utiles - 1; i++) {
+        bool choca = false;
+        for (int j = i+1; j < utiles && choca; j++) {
             if (set[i].colision(set[j])) {
                 set[i].choque(set[j]);
+                choca = true;
             }
         }
     }
