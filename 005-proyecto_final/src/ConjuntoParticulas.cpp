@@ -1,14 +1,6 @@
 #include "ConjuntoParticulas.h"
 #include "cassert"
 
-void ConjuntoParticulas::reservaMemoria() {
-    if (set != nullptr) {
-        liberaMemoria();
-    }
-
-    set = new Particula[capacidad];
-}
-
 void ConjuntoParticulas::liberaMemoria() {
     capacidad = 0;
     utiles = 0;
@@ -16,8 +8,24 @@ void ConjuntoParticulas::liberaMemoria() {
     set = nullptr;
 }
 
+void ConjuntoParticulas::reservaMemoria(int capacidad) {
+    if (set != nullptr) {
+        liberaMemoria();
+    }
+
+    set = new Particula[capacidad];
+}
+
+void ConjuntoParticulas::copia(const ConjuntoParticulas &otro) {
+    this->capacidad = otro.capacidad; 
+    this->utiles = otro.utiles;
+
+    for (int i = 0; i < this->utiles; i++) {
+        this->set[i] = otro.set[i];
+    }
+}
+
 void ConjuntoParticulas::redimensiona(int nuevaCapacidad) {
-    assert(nuevaCapacidad >= utiles);
     Particula *aux = new Particula[nuevaCapacidad];
     for (int i = 0; i < utiles; i++) {
         aux[i] = set[i];
@@ -29,25 +37,17 @@ void ConjuntoParticulas::redimensiona(int nuevaCapacidad) {
 }
 
 ConjuntoParticulas::ConjuntoParticulas(int n) {
-    // TODO: creo que aquí hay un problema
     utiles = capacidad = 0;
     set = nullptr;
     if (n > 0) {
         utiles = capacidad = n;
-        reservaMemoria();
+        reservaMemoria(capacidad);
     }
 }
 
 ConjuntoParticulas::ConjuntoParticulas(const ConjuntoParticulas &otro) {
-    this->capacidad = otro.capacidad; // esto va en copiar (copia todos los datos miembros)
-    this->utiles = otro.utiles;
-
-    reservaMemoria(); // aquí pasa como parámetro la capacidad
-    // primero RESERVA y luego COPIA
-
-    for (int i = 0; i < utiles; i++) {
-        this->set[i] = otro.set[i];
-    }
+    reservaMemoria(otro.capacidad); 
+    copia(otro);
 }
 
 ConjuntoParticulas::~ConjuntoParticulas() {
@@ -81,13 +81,14 @@ void ConjuntoParticulas::borrar(int pos) {
 }
 
 const Particula &ConjuntoParticulas::obtener(int pos) const {
-    assert(pos >= 0 && pos < utiles); // Comentado porque con assert no pasan los tests
+    assert(pos >= 0 && pos < utiles);
     return set[pos];
 }
 
 void ConjuntoParticulas::reemplazar(int pos, const Particula &part) {
-    if (pos >= 0 && pos < utiles)
+    if (pos >= 0 && pos < utiles) {
         set[pos] = part;
+    }
 }
 
 void ConjuntoParticulas::mover(int tipo) {
@@ -104,12 +105,21 @@ void ConjuntoParticulas::mover(int tipo) {
 
 void ConjuntoParticulas::gestionarColisiones() {
     for (int i = 0; i < utiles - 1; i++) {
-        bool choca = false;
-        for (int j = i+1; j < utiles && choca; j++) {
-            if (set[i].colision(set[j])) {
+        bool choca = false; 
+        for (int j = i+1; j < utiles && !choca; j++) {
+            choca = set[i].colision(set[j]);
+            if (choca) {
                 set[i].choque(set[j]);
-                choca = true;
             }
         }
     }
+}
+
+std::string ConjuntoParticulas::toString() {
+    std::string out = "Capacidad: " + std::to_string(capacidad) + 
+        "\nNúmero de partículas: " + std::to_string(utiles) + "\nParticulas:";
+    for (int i = 0; i < utiles; i++) {
+        out += "\nP" + std::to_string(i) + ": " + set[i].toString();
+    }
+    return out;
 }

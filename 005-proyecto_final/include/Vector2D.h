@@ -13,24 +13,13 @@ public:
     /// @param _y Valor de la coordenada y, por defecto 0
     Vector2D(float _x = 0, float _y = 0);
 
-    /// @brief
-    /// @return Valor de la coordenada x
     float getX() const;
-
-    /// @brief 
-    /// @return Valor de la coordenada y
     float getY() const;
 
-    /// @brief
-    /// @param _x Nuevo valor de la coordenada X
     void setX(float _x);
-
-    /// @brief
-    /// @param _y Nuevo valor de la coordenada Y
-
     void setY(float _y);
 
-    /// @brief
+    /// @brief Actualiza los valores de las dos coordenadas simultáneamente
     /// @param _x Nuevo valor de la coordenada X
     /// @param _y Nuevo valor de la coordenada Y
     void setXY(float _x, float _y);
@@ -53,9 +42,9 @@ public:
     /// para conseguir un vector con módulo 1.
     void normalizar();
 
-    /// @brief Calcula la distancia entre este vector y otro
+    /// @brief Calcula la distancia entre este vector y 'otro'
     /// @param otro 
-    /// @return 
+    /// @return Distancia entre los dos vectores
     float distancia(const Vector2D &otro) const;
 
     /// @brief Devuelve los datos de este vector como un string

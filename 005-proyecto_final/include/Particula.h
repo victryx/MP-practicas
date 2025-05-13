@@ -2,7 +2,6 @@
 #define PARTICULA_H
 
 #include "Vector2D.h"
-#include "utils.h"
 
 class Particula
 {
@@ -13,13 +12,32 @@ private:
     float radio;
     int tipo;
 
+    /// @brief Comprueba si la partícula choca con el límite superior del mapa
     bool chocaNorte();
 
+    /// @brief Comprueba si la partícula choca con el límite inferior del mapa
     bool chocaSur();
 
+    /// @brief Comprueba si la partícula choca con el límite derecho del mapa
     bool chocaEste();
 
+    /// @brief Comprueba si la partícula choca con el límite izquierdo del mapa
     bool chocaOeste();
+
+    /// @brief Genera un número aleatorio entre min y max
+    /// @param min 
+    /// @param max 
+    /// @return Un número aleatorio
+    /// @pre min < max
+    float aleatorio(float min, float max);
+
+    /// @brief Ajusta el valor val para que esté en el intervalo definido por
+    ///        limiteInferior y limiteSuperior
+    /// @param val Valor a ajustar
+    /// @param limiteInferior valor mínimo
+    /// @param limiteSuperior valor máximo
+    /// @return 
+    float ajustarValor(float val, float limiteInferior, float limiteSuperior);
 
     /// @brief Ajusta la posición de la partícula a los límites del mundo
     void ajustarPosicion();
@@ -61,7 +79,7 @@ public:
 
     /// @brief Comprueba si esta partícula esta colisionando con otra
     /// @param otro partícula con la que se comprueba la colisión
-    /// @return true si esta partícula colisiona con la que se pasa como parámetro
+    /// @return true si esta partícula colisiona con la que se pasa como parámetro,
     ///         false en caso contrario
     bool colision(const Particula &otro);
 
