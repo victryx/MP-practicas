@@ -4,22 +4,32 @@ using namespace std;
 
 void txtInputTest();
 
+void vecinoProximo();
+
 int main(int argc, char const *argv[]) {
     txtInputTest();
 }
 
+void vecinoProximo(const ConjuntoParticulas &parts, const ConjuntoParticulas &centros, ConjuntoParticulas *grupos) {
+
+
+}
+
 void txtInputTest() {
+    // usar con particulas.txt
     ConjuntoParticulas conj;
 
     for (int i = 0; i < 30; i++) {
-        Particula p;
+        conj += Particula();
     }
-    
+
+    cout << "Conjunto generado: \n" << conj << endl;
 
     cin >> conj;
 
-    cout << "Conjunto introducido: \n" << conj << endl;
+//    cout << "Conjunto introducido: \n" << conj << endl;
 
+    cout << "Conjunto introducido: \n" << conj.toString() << endl;
 }
 
 void inputTest() {

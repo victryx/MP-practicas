@@ -74,15 +74,26 @@ ConjuntoParticulas& ConjuntoParticulas::operator=(const ConjuntoParticulas &otro
     return *this;
 }
 
+// aux = otro
+// Por cada Particula part de this->set
+//   si aux.set contiene a part
+//      eliminar part de aux.set
+//   si no 
+//      conjuntos DISTINTOS
+//
+// si aux.set está vacio
+//   conjuntos IGUALES
 bool ConjuntoParticulas::operator==(const ConjuntoParticulas &otro) const {
-    // TODO: aquí hay que comprobar si this == &otro
+    // TODO: aquí hay que comprobar antes si this == &otro
+    // Podría ser algo así:?
+    // return this == &otro || (this->utiles == otro.utiles && conjuntosIguales(otro))
 
     bool iguales = this->utiles == otro.utiles;
 
     ConjuntoParticulas aux = otro;
 
-    for (int i = 0; i < this->utiles && iguales; i++) {
-        int index = aux.indexOf( obtener(i) );
+    for (int i = 0; i < utiles && iguales; i++) {
+        int index = aux.indexOf( set[i] );
         iguales = index > -1;
 
         if (iguales) {
@@ -101,7 +112,7 @@ ConjuntoParticulas &ConjuntoParticulas::operator+=(const Particula &p) {
 
 ConjuntoParticulas &ConjuntoParticulas::operator+=(const ConjuntoParticulas &otro) {
     for (int i = 0; i < otro.utiles; i++) {
-        *this += otro.obtener(i);
+        *this += otro.set[i];
     }
     return *this;
 }
@@ -187,30 +198,24 @@ std::ostream &operator<<(std::ostream &flujo, const ConjuntoParticulas &conj) {
     return flujo;
 }
 
+// Sobreescribe los anteriores datos que pudiese haber en 'conj'
 std::istream &operator>>(std::istream &flujo, ConjuntoParticulas &conj) {
     std::string header;
     int size;
 
     flujo >> header >> size;
-    conj.utiles = 0;
+    conj.utiles = 0;  // para sobreescribir los datos anteriores
     for (int i = 0; i < size; i++) {
         Particula part;
         flujo >> part;
         conj.agregar(part);
     }
 
-    conj.redimensiona(conj.utiles);
-    
-    /*
-    flujo >> header >> conj.utiles;
-    for (int i = 0; i < conj.utiles; i++) {
-        Particula part;
-        flujo >> part;
-        conj.set[i] = part;
+    if (conj.capacidad > conj.utiles) {
+        // Esto ocurre si conj contenía datos antes de llamar a >>
+        conj.redimensiona(conj.utiles); 
     }
     
-    conj.redimensiona(conj.utiles);
-    */
     
     return flujo;
 }
