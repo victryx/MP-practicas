@@ -29,6 +29,12 @@ private:
     /// @pre nuevaCapacidad >= utiles
     void redimensiona(int nuevaCapacidad);
 
+    /// @brief Devuelve el índice de la primera aparición de part en el conjunto
+    ///        de partículas, o -1 si no aparece.
+    /// @param part particula cuyo índice queremos conocer
+    /// @return Índice de la partícula part, o -1 si part no está en el conjunto
+    int indexOf(const Particula &part) const;
+
 public:
     /// @brief Si n <= 0, crea un conjunto vacío. Si n > 0, crea un conjunto 
     ///        con n elementos
@@ -39,6 +45,21 @@ public:
 
     ~ConjuntoParticulas();
 
+    ConjuntoParticulas &operator=(const ConjuntoParticulas &otro);
+
+    bool operator==(const ConjuntoParticulas &otro) const;
+
+    /// @brief Agrega la particula 'p' a este conjunto de partículas
+    /// @param p 
+    /// @return 
+    ConjuntoParticulas &operator+=(const Particula &p);
+
+    /// @brief Agrega todas las partículas de 'otro' a este conjunto
+    /// @param otro
+    /// @return 
+    ConjuntoParticulas &operator+=(const ConjuntoParticulas &otro);
+
+
     int getUtiles() const;
 
     int getCapacidad() const;
@@ -48,13 +69,13 @@ public:
     void agregar(const Particula &part);
 
     /// @brief Elimina la partícula en la posición pos del array 
-    /// @param pos 
+    /// @param pos Posición de la partícula a eliminar
     /// @pre 0 <= pos < utiles
     void borrar(int pos);
 
     /// @brief Devuelve una referencia a la partícula en la posición pos del array
-    /// @param pos posición de la partícula
-    /// @return 
+    /// @param pos Posición de la partícula
+    /// @return Una referencia a la partícula en la posición 'pos'
     /// @pre 0 <= pos < utiles
     const Particula &obtener(int pos) const;
 
@@ -74,8 +95,12 @@ public:
 
     /// @brief Transforma el conjunto de partículas en un string
     /// @return Una representación en texto de la partícula
-    std::string toString();
+    std::string toString() const;
 
+    friend std::istream &operator>>(std::istream &flujo, ConjuntoParticulas &conj);
 };
+
+std::ostream &operator<<(std::ostream &flujo, const ConjuntoParticulas &conj);
+
 
 #endif

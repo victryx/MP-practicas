@@ -1,3 +1,6 @@
+#ifndef PARAMS_H
+#define PARAMS_H
+
 const int MAX_X = 600;
 const int MAX_Y = 600;
 
@@ -9,3 +12,5 @@ const float MIN_R = 3.0;
 const float MAX_R = 7.0;
 
 const float EPSILON = 0.01;
+
+#endif

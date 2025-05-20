@@ -1,4 +1,3 @@
-
 #include "raylib.h"
 #include "Particula.h"
 #include "ConjuntoParticulas.h"
@@ -51,7 +50,6 @@ int main(int argc, char* argv[]) {
     //---------------------------------------------------------
     bool fin = false;
 
-    std::cout << nube.toString();
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {   
         nube.mover(modo);

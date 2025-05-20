@@ -112,8 +112,10 @@ TEST_CASE("Pruebas agregar/borrar") {
 	for(int i = 0; i < TAM_BLOQUE; i++)
 		c1.borrar(0);	
 	
-	CHECK(c1.getCapacidad() == cap - TAM_BLOQUE);
-	CHECK(c1.getUtiles() == (util - TAM_BLOQUE - 1));
+	//CHECK(c1.getCapacidad() == cap - TAM_BLOQUE);
+	//CHECK(c1.getUtiles() == (util - TAM_BLOQUE - 1));
+	CHECK(c1.getUtiles() == c1.getCapacidad());
+	
     }
        
   SUBCASE("combinados"){

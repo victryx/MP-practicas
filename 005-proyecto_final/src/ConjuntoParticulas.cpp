@@ -1,5 +1,6 @@
 #include "ConjuntoParticulas.h"
-#include "cassert"
+#include <cassert>
+#include <iostream>
 
 void ConjuntoParticulas::liberaMemoria() {
     capacidad = 0;
@@ -36,6 +37,16 @@ void ConjuntoParticulas::redimensiona(int nuevaCapacidad) {
     capacidad = nuevaCapacidad;
 }
 
+int ConjuntoParticulas::indexOf(const Particula &part) const {
+    int index = -1;
+    for (int i = 0; i < utiles && index == -1; i++) {
+        if (part == obtener(i)) {
+            index = i;
+        }
+    }
+    return index;
+}
+
 ConjuntoParticulas::ConjuntoParticulas(int n) {
     utiles = capacidad = 0;
     set = nullptr;
@@ -52,6 +63,47 @@ ConjuntoParticulas::ConjuntoParticulas(const ConjuntoParticulas &otro) {
 
 ConjuntoParticulas::~ConjuntoParticulas() {
     liberaMemoria();
+}
+
+ConjuntoParticulas& ConjuntoParticulas::operator=(const ConjuntoParticulas &otro) {
+    if (this != &otro) {
+        liberaMemoria();
+        reservaMemoria(otro.capacidad);
+        copia(otro);
+    }
+    return *this;
+}
+
+bool ConjuntoParticulas::operator==(const ConjuntoParticulas &otro) const {
+    // TODO: aquí hay que comprobar si this == &otro
+
+    bool iguales = this->utiles == otro.utiles;
+
+    ConjuntoParticulas aux = otro;
+
+    for (int i = 0; i < this->utiles && iguales; i++) {
+        int index = aux.indexOf( obtener(i) );
+        iguales = index > -1;
+
+        if (iguales) {
+            aux.borrar(index);
+        }
+    }
+
+    return iguales && aux.utiles == 0;
+    
+}
+
+ConjuntoParticulas &ConjuntoParticulas::operator+=(const Particula &p) {
+    agregar(p);
+    return *this;
+}
+
+ConjuntoParticulas &ConjuntoParticulas::operator+=(const ConjuntoParticulas &otro) {
+    for (int i = 0; i < otro.utiles; i++) {
+        *this += otro.obtener(i);
+    }
+    return *this;
 }
 
 int ConjuntoParticulas::getUtiles() const {
@@ -74,7 +126,7 @@ void ConjuntoParticulas::borrar(int pos) {
         std::swap(set[pos], set[utiles - 1]);
         utiles--;
     
-        if (capacidad - utiles >= TAM_BLOQUE) {
+        if (capacidad - utiles > TAM_BLOQUE) {
             redimensiona(utiles);
         }
     }
@@ -115,11 +167,50 @@ void ConjuntoParticulas::gestionarColisiones() {
     }
 }
 
-std::string ConjuntoParticulas::toString() {
+std::string ConjuntoParticulas::toString() const {
     std::string out = "Capacidad: " + std::to_string(capacidad) + 
         "\nNúmero de partículas: " + std::to_string(utiles) + "\nParticulas:";
     for (int i = 0; i < utiles; i++) {
         out += "\nP" + std::to_string(i) + ": " + set[i].toString();
     }
     return out;
+}
+
+std::ostream &operator<<(std::ostream &flujo, const ConjuntoParticulas &conj) {
+    // No uso ConjuntoParticulas::toString() porque el formato requerido es diferente
+
+    int cantidad = conj.getUtiles();
+    flujo << "@Particulas: " << cantidad;
+    for (int i = 0; i < cantidad; i++) {
+        flujo << "\np" << i << ": " << conj.obtener(i);
+    }
+    return flujo;
+}
+
+std::istream &operator>>(std::istream &flujo, ConjuntoParticulas &conj) {
+    std::string header;
+    int size;
+
+    flujo >> header >> size;
+    conj.utiles = 0;
+    for (int i = 0; i < size; i++) {
+        Particula part;
+        flujo >> part;
+        conj.agregar(part);
+    }
+
+    conj.redimensiona(conj.utiles);
+    
+    /*
+    flujo >> header >> conj.utiles;
+    for (int i = 0; i < conj.utiles; i++) {
+        Particula part;
+        flujo >> part;
+        conj.set[i] = part;
+    }
+    
+    conj.redimensiona(conj.utiles);
+    */
+    
+    return flujo;
 }

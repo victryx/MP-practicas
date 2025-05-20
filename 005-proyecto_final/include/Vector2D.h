@@ -2,6 +2,7 @@
 #define VECTOR2D_H
 
 #include <string>
+#include <ostream>
 
 class Vector2D {
 private:
@@ -12,6 +13,8 @@ public:
     /// @param _x Valor de la coordenada x, por defecto 0
     /// @param _y Valor de la coordenada y, por defecto 0
     Vector2D(float _x = 0, float _y = 0);
+
+    bool operator==(const Vector2D &otro) const;
 
     float getX() const;
     float getY() const;
@@ -51,5 +54,8 @@ public:
     /// @return Un string con formato "(x,y)"
     std::string toString() const;
 };
+
+std::ostream &operator<<(std::ostream &flujo, const Vector2D &vector);
+std::istream &operator>>(std::istream &flujo, Vector2D &vector);
 
 #endif

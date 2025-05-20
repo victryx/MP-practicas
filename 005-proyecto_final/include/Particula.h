@@ -13,31 +13,31 @@ private:
     int tipo;
 
     /// @brief Comprueba si la partícula choca con el límite superior del mapa
-    bool chocaNorte();
+    bool chocaNorte() const;
 
     /// @brief Comprueba si la partícula choca con el límite inferior del mapa
-    bool chocaSur();
+    bool chocaSur() const;
 
     /// @brief Comprueba si la partícula choca con el límite derecho del mapa
-    bool chocaEste();
+    bool chocaEste() const;
 
     /// @brief Comprueba si la partícula choca con el límite izquierdo del mapa
-    bool chocaOeste();
+    bool chocaOeste() const;
 
     /// @brief Genera un número aleatorio entre min y max
     /// @param min 
     /// @param max 
     /// @return Un número aleatorio
     /// @pre min < max
-    float aleatorio(float min, float max);
+    float aleatorio(float min, float max) const;
 
     /// @brief Ajusta el valor val para que esté en el intervalo definido por
     ///        limiteInferior y limiteSuperior
     /// @param val Valor a ajustar
     /// @param limiteInferior valor mínimo
     /// @param limiteSuperior valor máximo
-    /// @return 
-    float ajustarValor(float val, float limiteInferior, float limiteSuperior);
+    /// @return Valor ajustado
+    float ajustarValor(float val, float limiteInferior, float limiteSuperior) const;
 
     /// @brief Ajusta la posición de la partícula a los límites del mundo
     void ajustarPosicion();
@@ -58,6 +58,8 @@ public:
     Particula(int tipoPart = 0);
 
     Particula(const Vector2D &_pos, const Vector2D &_acel, const Vector2D &_veloc, float _radio, int _tipo);
+
+    bool operator==(const Particula &otro) const;
 
     Vector2D getPos() const;
     Vector2D getAcel() const;
@@ -81,7 +83,7 @@ public:
     /// @param otro partícula con la que se comprueba la colisión
     /// @return true si esta partícula colisiona con la que se pasa como parámetro,
     ///         false en caso contrario
-    bool colision(const Particula &otro);
+    bool colision(const Particula &otro) const;
 
     /// @brief Simula el choque elástico entre dos partículas
     /// @param otro 
@@ -94,6 +96,17 @@ public:
     /// @brief Si la partícula está colisionando con uno de los bordes, la mueve
     ///        al borde opuesto
     void wrap();
+
+    /// @brief 
+    /// @param flujo 
+    /// @param part 
+    /// @return 
+    /// @note Hay que implementar esta función como 'friend' porque tiene que
+    ///       modificar 'tipo' y 'tipo' no tiene setter
+    friend std::istream &operator>>(std::istream &flujo, Particula &part);
 };
+
+std::ostream &operator<<(std::ostream &flujo, const Particula &part);
+
 
 #endif

@@ -1,10 +1,17 @@
 #include "Vector2D.h"
+#include "params.h"
+#include "utils.h"
 #include <cmath>
 #include <string>
+#include <iostream>
 
 Vector2D::Vector2D(float _x, float _y) {
     this->x = _x;
     this->y = _y;
+}
+
+bool Vector2D::operator==(const Vector2D &otro) const {
+    return floatEqual(x,otro.x, EPSILON) && floatEqual(y, otro.y, EPSILON);
 }
 
 float Vector2D::getX() const {
@@ -51,4 +58,18 @@ float Vector2D::distancia(const Vector2D &otro) const {
 
 std::string Vector2D::toString() const {
     return "(" + std::to_string(x) + "," + std::to_string(y) + ")";
+}
+
+std::ostream &operator<<(std::ostream &flujo, const Vector2D &vector) {
+   return flujo << vector.toString(); 
+}
+
+std::istream &operator>>(std::istream &flujo, Vector2D &vector) {
+    char ch;
+    float x, y;
+
+    flujo >> ch >> x >> ch >> y >> ch;
+    vector.setXY(x,y);
+    
+    return flujo;
 }
