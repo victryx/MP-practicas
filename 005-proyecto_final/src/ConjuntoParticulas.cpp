@@ -74,25 +74,15 @@ ConjuntoParticulas& ConjuntoParticulas::operator=(const ConjuntoParticulas &otro
     return *this;
 }
 
-// aux = otro
-// Por cada Particula part de this->set
-//   si aux.set contiene a part
-//      eliminar part de aux.set
-//   si no 
-//      conjuntos DISTINTOS
-//
-// si aux.set está vacio
-//   conjuntos IGUALES
+
 bool ConjuntoParticulas::operator==(const ConjuntoParticulas &otro) const {
-    // TODO: aquí hay que comprobar antes si this == &otro
-    // Podría ser algo así:?
-    // return this == &otro || (this->utiles == otro.utiles && conjuntosIguales(otro))
+    bool punterosIguales = this == &otro; // no entra en el bucle si los dos objetos son el mismo
 
     bool iguales = this->utiles == otro.utiles;
 
     ConjuntoParticulas aux = otro;
 
-    for (int i = 0; i < utiles && iguales; i++) {
+    for (int i = 0; i < utiles && iguales && !punterosIguales; i++) {
         int index = aux.indexOf( set[i] );
         iguales = index > -1;
 
@@ -101,8 +91,7 @@ bool ConjuntoParticulas::operator==(const ConjuntoParticulas &otro) const {
         }
     }
 
-    return iguales && aux.utiles == 0;
-    
+    return punterosIguales || (iguales && aux.utiles == 0);
 }
 
 ConjuntoParticulas &ConjuntoParticulas::operator+=(const Particula &p) {
@@ -178,6 +167,12 @@ void ConjuntoParticulas::gestionarColisiones() {
     }
 }
 
+void ConjuntoParticulas::vaciar() {
+    liberaMemoria();
+    capacidad = TAM_BLOQUE;
+    reservaMemoria(capacidad);
+}
+
 std::string ConjuntoParticulas::toString() const {
     std::string out = "Capacidad: " + std::to_string(capacidad) + 
         "\nNúmero de partículas: " + std::to_string(utiles) + "\nParticulas:";
@@ -198,24 +193,19 @@ std::ostream &operator<<(std::ostream &flujo, const ConjuntoParticulas &conj) {
     return flujo;
 }
 
-// Sobreescribe los anteriores datos que pudiese haber en 'conj'
 std::istream &operator>>(std::istream &flujo, ConjuntoParticulas &conj) {
     std::string header;
     int size;
 
     flujo >> header >> size;
-    conj.utiles = 0;  // para sobreescribir los datos anteriores
+
+    conj.vaciar();
+
     for (int i = 0; i < size; i++) {
         Particula part;
         flujo >> part;
         conj.agregar(part);
     }
 
-    if (conj.capacidad > conj.utiles) {
-        // Esto ocurre si conj contenía datos antes de llamar a >>
-        conj.redimensiona(conj.utiles); 
-    }
-    
-    
     return flujo;
 }

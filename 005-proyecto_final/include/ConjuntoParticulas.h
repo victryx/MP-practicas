@@ -47,18 +47,17 @@ public:
 
     ConjuntoParticulas &operator=(const ConjuntoParticulas &otro);
 
+    /// @brief Dos conjuntos de partículas son iguales si cada partícula de
+    ///        un conjunto se encuentra también en el otro conjunto. 
+    ///        No se tiene en cuenta el orden.
+    /// @return true si los dos conjuntos son iguales, false si no.
     bool operator==(const ConjuntoParticulas &otro) const;
 
     /// @brief Agrega la particula 'p' a este conjunto de partículas
-    /// @param p 
-    /// @return 
     ConjuntoParticulas &operator+=(const Particula &p);
 
     /// @brief Agrega todas las partículas de 'otro' a este conjunto
-    /// @param otro
-    /// @return 
     ConjuntoParticulas &operator+=(const ConjuntoParticulas &otro);
-
 
     int getUtiles() const;
 
@@ -80,7 +79,7 @@ public:
     const Particula &obtener(int pos) const;
 
     /// @brief Sobreescribe la particula en la posición pos por la particula part
-    /// @param pos Posición de la particula sobreescrita
+    /// @param pos Posición de la particula a reemplazar
     /// @param part Nueva partícula
     void reemplazar(int pos, const Particula &part);
 
@@ -93,12 +92,19 @@ public:
     /// @brief Por cada PAR de partículas, evalua si estas colisionan y chocan
     void gestionarColisiones();
 
+    /// @brief Vacia el conjunto de partículas
+    /// @note Esta función establece utiles a 0 e inicializa set con capacidad
+    ///       igual a la constante TAM_BLOQUE
+    void vaciar();
+
     /// @brief Transforma el conjunto de partículas en un string
     /// @return Una representación en texto de la partícula
     std::string toString() const;
 
-    friend std::istream &operator>>(std::istream &flujo, ConjuntoParticulas &conj);
 };
+
+/// @note Sobreescribe los datos que pudiese haber en 'conj'
+std::istream &operator>>(std::istream &flujo, ConjuntoParticulas &conj);
 
 std::ostream &operator<<(std::ostream &flujo, const ConjuntoParticulas &conj);
 

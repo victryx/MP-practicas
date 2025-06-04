@@ -20,7 +20,6 @@ void agruparPorProximidad(const ConjuntoParticulas &parts, const Particula *cent
 
 int centroMasCercano(const Particula &part, const Particula *centros, int nCentros);
 
-// modularizar lectura, escritura?
 int main() {
     ConjuntoParticulas parts;
     Particula* centros = nullptr;
@@ -64,21 +63,19 @@ int main() {
         grupos[i] += centros[i];
     }
     
-    
     cout << "ESTADO INICIAL DE LOS GRUPOS" << endl;
     for(int i = 0; i < numeroCentros; i++){
         cout << "Grupo " << i+1 << endl;
         cout << grupos[i] << endl;   
     }
     
-    
      /********************************************
      *     PROCESAMIENTO DE LOS DATOS
      ********************************************/
 
-    agruparPorProximidad(parts, centros, grupos, numeroCentros);
-
-
+    if (numeroCentros > 0) { 
+        agruparPorProximidad(parts, centros, grupos, numeroCentros);
+    }
 
     /********************************
      *     MOSTRAR RESULTADOS
@@ -89,11 +86,12 @@ int main() {
         cout << "Grupo " << i+1 << endl;
         cout << grupos[i] << endl;   
     }
-    
+
+    delete [] grupos;
+    delete [] centros;
 
     return 0;
 }
-
 
 void agruparPorProximidad(const ConjuntoParticulas &parts, const Particula *centros, ConjuntoParticulas *grupos, int nCentros) {
     int utiles = parts.getUtiles();
@@ -105,7 +103,6 @@ void agruparPorProximidad(const ConjuntoParticulas &parts, const Particula *cent
 }
 
 int centroMasCercano(const Particula &part, const Particula *centros, int nCentros) {
-    // TODO: falla si hay 0 centros
     int nearest = 0;
     float minDist = part.getPos().distancia(centros[0].getPos());
 

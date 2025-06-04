@@ -1,10 +1,10 @@
 #include <iostream>
+#include <cassert>
 #include "ConjuntoParticulas.h"
 using namespace std;
 
 void txtInputTest();
 
-void vecinoProximo();
 
 int main(int argc, char const *argv[]) {
     txtInputTest();
@@ -27,9 +27,16 @@ void txtInputTest() {
 
     cin >> conj;
 
-//    cout << "Conjunto introducido: \n" << conj << endl;
-
     cout << "Conjunto introducido: \n" << conj.toString() << endl;
+
+    ConjuntoParticulas c = conj;
+    Particula p;
+    assert(c == conj);
+    c.agregar(p);
+    assert(!(c == conj));
+    c.vaciar();
+    c.agregar(p);
+    cout << "Conjunto vacio: \n" << c.toString() << endl;
 }
 
 void inputTest() {

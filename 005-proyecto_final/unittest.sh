@@ -1,2 +1,2 @@
-g++ src/Vector2D.cpp src/Particula.cpp src/ConjuntoParticulas.cpp src/testConjunto.cpp -Iinclude -o test
-./test
+g++ src/Vector2D.cpp src/Particula.cpp src/ConjuntoParticulas.cpp test/testConjunto.cpp -Iinclude -o unittest
+./unittest

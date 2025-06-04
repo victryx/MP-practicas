@@ -22,12 +22,6 @@ bool Particula::chocaOeste() const {
     return pos.getX() - radio <= 0;
 }
 
-float Particula::aleatorio(float min, float max) const {
-    float r = rand() / static_cast<float> (RAND_MAX); 
-    float rango = max - min;
-    return (r * rango + min);
-}
-
 float Particula::ajustarValor(float val, float limiteInferior, float limiteSuperior) const {
     return fmaxf(limiteInferior, fminf(limiteSuperior, val));
 }
@@ -161,15 +155,20 @@ std::istream &operator>>(std::istream &flujo, Particula &part) {
     std::string header;
     char ch;
 
+    Vector2D pos, veloc, acel;
+    float radio;
+    int tipo;
+
     flujo >> header;
     
-    // @Particula: {(240.56,94.00),(-3.91,-3.70),(-0.16,0.29),8.0,1}
-    flujo >> ch >> part.pos;
-    flujo >> ch >> part.veloc;
-    flujo >> ch >> part.acel;
+    flujo >> ch >> pos;
+    flujo >> ch >> veloc;
+    flujo >> ch >> acel;
 
-    flujo >> ch >> part.radio;
-    flujo >> ch >> part.tipo >> ch;
+    flujo >> ch >> radio;
+    flujo >> ch >> tipo >> ch;
+
+    part = Particula(pos, acel, veloc, radio, tipo);
 
     return flujo;
 }

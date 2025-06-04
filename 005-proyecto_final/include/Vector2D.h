@@ -2,7 +2,10 @@
 #define VECTOR2D_H
 
 #include <string>
-#include <ostream>
+#include <iostream>
+#include "params.h"
+#include "utils.h"
+#include <cmath>
 
 class Vector2D {
 private:
@@ -15,6 +18,7 @@ public:
     Vector2D(float _x = 0, float _y = 0);
 
     bool operator==(const Vector2D &otro) const;
+    Vector2D &operator+=(const Vector2D &otro);
 
     float getX() const;
     float getY() const;
@@ -30,6 +34,12 @@ public:
     /// @brief Recibe un vector como parámetro y se lo suma al vector actual
     /// @param otro Vector sumado a este vector
     void sumar(const Vector2D &otro);
+
+    /// @brief suma el valor _x a la componente X del vector
+    void sumarX(float _x);
+
+    /// @brief suma el valor _y a la componente Y del vector
+    void sumarY(float _y);
     
     /// @brief Multiplica este vector por el valor recibido como parámetro
     /// @param val Valor por el que es multiplicado el vector

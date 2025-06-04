@@ -24,13 +24,6 @@ private:
     /// @brief Comprueba si la partícula choca con el límite izquierdo del mapa
     bool chocaOeste() const;
 
-    /// @brief Genera un número aleatorio entre min y max
-    /// @param min 
-    /// @param max 
-    /// @return Un número aleatorio
-    /// @pre min < max
-    float aleatorio(float min, float max) const;
-
     /// @brief Ajusta el valor val para que esté en el intervalo definido por
     ///        limiteInferior y limiteSuperior
     /// @param val Valor a ajustar
@@ -97,15 +90,14 @@ public:
     ///        al borde opuesto
     void wrap();
 
-    /// @brief 
-    /// @param flujo 
-    /// @param part 
-    /// @return 
-    /// @note Hay que implementar esta función como 'friend' porque tiene que
-    ///       modificar 'tipo' y 'tipo' no tiene setter
-    friend std::istream &operator>>(std::istream &flujo, Particula &part);
 };
 
+/// @brief Lectura de un objeto Particula con el formato
+///        @Particula: {(240.56,94.00),(-3.91,-3.70),(-0.16,0.29),8.0,1}
+std::istream &operator>>(std::istream &flujo, Particula &part);
+
+/// @brief Escritura de un objeto Particula con el formato
+///        @Particula: {(240.56,94.00),(-3.91,-3.70),(-0.16,0.29),8.0,1}
 std::ostream &operator<<(std::ostream &flujo, const Particula &part);
 
 

@@ -1,9 +1,4 @@
 #include "Vector2D.h"
-#include "params.h"
-#include "utils.h"
-#include <cmath>
-#include <string>
-#include <iostream>
 
 Vector2D::Vector2D(float _x, float _y) {
     this->x = _x;
@@ -12,6 +7,11 @@ Vector2D::Vector2D(float _x, float _y) {
 
 bool Vector2D::operator==(const Vector2D &otro) const {
     return floatEqual(x,otro.x, EPSILON) && floatEqual(y, otro.y, EPSILON);
+}
+
+Vector2D &Vector2D::operator+=(const Vector2D &otro) {
+    sumar(otro);
+    return *this;
 }
 
 float Vector2D::getX() const {
@@ -39,6 +39,14 @@ void Vector2D::sumar(const Vector2D &otro) {
     setXY(this->x + otro.x, this->y + otro.y);
 }
 
+void Vector2D::sumarX(float _x) {
+    setX(x + _x);
+}
+
+void Vector2D::sumarY(float _y) {
+    setY(y + _y);
+}
+
 void Vector2D::escalar(float val) {
     setXY(x * val, y * val);
 }
@@ -49,7 +57,9 @@ float Vector2D::modulo() const {
 
 void Vector2D::normalizar() {
     float mod = modulo();
-    setXY(x / mod, y / mod);
+    if (!floatEqual(mod, 0.f, EPSILON)) {
+        setXY(x / mod, y / mod);
+    }
 }
 
 float Vector2D::distancia(const Vector2D &otro) const {
