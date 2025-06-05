@@ -2,7 +2,7 @@
 
 /* Métodos privados */
 
-float Game::getElapsedTime() {
+float Game::getElapsedTime() const {
     std::chrono::time_point<std::chrono::high_resolution_clock> now;
     now = std::chrono::high_resolution_clock::now();
     unsigned long time = std::chrono::duration_cast<std::chrono::milliseconds>(now - startTime).count();
@@ -46,13 +46,13 @@ void Game::updateEnemies() {
             enemies.borrar(i);                      // se elimina al enemigo del juego
             playerLives--;                          // se resta una vida al jugador
 
-            active = playerLives > 0;              // si las vidas se quedan a cero, termina el juego :(
+            active = playerLives > 0;               // si las vidas se quedan a cero, termina el juego :(
         }
     }
 }
 
 void Game::spawnEnemy() {
-    if (getElapsedTime() - lastSpawned > enemySpawnCooldown) {
+    if (getElapsedTime() - lastSpawnedTime > enemySpawnCooldown) {
         Vector2D pos(
             aleatorio(0, screenWidth),
             ENEMY_SPAWN_OFFSET_Y
@@ -65,7 +65,7 @@ void Game::spawnEnemy() {
 
         Particula e(pos, acel, vel, enemyRadius, 1);
         enemies.agregar(e);
-        lastSpawned = getElapsedTime();
+        lastSpawnedTime = getElapsedTime();
     }
 }
 
@@ -95,13 +95,13 @@ void Game::onEnemyDestroyed() {
 }
 
 void Game::fireBullet() {
-    if (getElapsedTime() - lastShot > shootCooldown) {
+    if (getElapsedTime() - lastShotTime > shootCooldown) {
         Vector2D acel = Vector2D(0,0);
         Vector2D veloc = Vector2D(0, bulletVelocity);
         Vector2D pos = player.getPos();
         Particula bullet = Particula(player.getPos(), acel, veloc, bulletRadius, 1);
         bullets.agregar(bullet);
-        lastShot = getElapsedTime();
+        lastShotTime = getElapsedTime();
     }
 }
 
@@ -109,7 +109,6 @@ void Game::fireBullet() {
 
 Game::Game(int _screenWidth, int _screenHeight) 
     : screenWidth(_screenWidth), screenHeight(_screenHeight) {
-    // el constructor por defecto asigna los parámetros de params.h
 
     playerLives = PLAYER_LIVES;
     playerVelocity = PLAYER_VELOCITY;
@@ -131,6 +130,22 @@ Game::Game(int _screenWidth, int _screenHeight)
     player.setPos(playerSpawnPoint);
 
     startTime = std::chrono::high_resolution_clock::now();
+}
+
+void Game::restart() {
+    player.setPos(playerSpawnPoint);
+    startTime = std::chrono::high_resolution_clock::now();
+    playerPoints = 0;
+    lastShotTime = 0;
+    lastSpawnedTime = 0;
+    active = true;
+
+    playerLives = PLAYER_LIVES;
+    shootCooldown = SHOOT_COOLDOWN;
+    enemySpawnCooldown = ENEMY_SPAWN_COOLDOWN;
+
+    enemies.vaciar();
+    bullets.vaciar();
 }
 
 const ConjuntoParticulas &Game::getEnemies() const {

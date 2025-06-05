@@ -1,2 +1,2 @@
-g++ src/*.cpp  -Iinclude -lraylib -Llib -o bin/COMEMIERDA
-./bin/COMEMIERDA
+g++ src/*.cpp  -Iinclude -lraylib -Llib -o bin/VIDEOGUEJO
+./bin/VIDEOGUEJO

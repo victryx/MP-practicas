@@ -10,6 +10,10 @@ void pintarParticulas(const ConjuntoParticulas &conj, Color col);
 void drawPlayer(const Particula &player, Color c);
 void drawUI(const Game &game);
 
+void mainLoop(Game &game);
+void gameOverLoop(Game &game);
+
+
 int main(int argc, char const *argv[]) {
     const int screenWidth = MAX_X;
     const int screenHeight = MAX_Y;
@@ -20,46 +24,58 @@ int main(int argc, char const *argv[]) {
 
     Game game(screenWidth, screenHeight);
 
-    while (!WindowShouldClose() && game.isActive()) {
-
-        int inputDirection = 0;
-
-        if (IsKeyDown(KEY_LEFT)) {
-            inputDirection = -1;
+    while (!WindowShouldClose()) {
+        if (game.isActive()) {
+            mainLoop(game);
+        } else {
+            gameOverLoop(game);
         }
-
-        if (IsKeyDown(KEY_RIGHT)) {
-            inputDirection = 1;
-        }
-
-        bool fire = IsKeyDown(KEY_SPACE);
-
-        game.update(inputDirection, fire);
-
-        // PINTAR
-        BeginDrawing();
-
-        ClearBackground(RAYWHITE);
-        drawUI(game);
-
-        drawPlayer(game.getPlayer(), GREEN);
-        pintarParticulas(game.getEnemies(), RED);
-        pintarParticulas(game.getBullets(), BLACK);
-        EndDrawing();
-    }
-
-    while (!game.isActive() && !WindowShouldClose()) {
-        ClearBackground(RED);
-        BeginDrawing();
-        DrawText("HAS PERDIDO\nAHAHAHAHHAJAÑHJALK", 30, 20, 20, BLACK);
-        std::string pointsLabel = "PERO....\nHas conseguido " + std::to_string(game.getPlayerPoints()) + " Puntos";
-
-        DrawText(pointsLabel.c_str(), 30, 70, 20, BLACK);
-        EndDrawing();
     }
 
     CloseWindow(); // Close window and OpenGL context
     return 0;
+}
+
+void mainLoop(Game &game) {
+    int inputDirection = 0;
+
+    if (IsKeyDown(KEY_LEFT)) {
+        inputDirection = -1;
+    }
+
+    if (IsKeyDown(KEY_RIGHT)) {
+        inputDirection = 1;
+    }
+
+    bool fire = IsKeyDown(KEY_SPACE); 
+
+    game.update(inputDirection, fire); 
+
+    // PINTAR
+    BeginDrawing();
+
+    ClearBackground(RAYWHITE);
+    drawUI(game);
+
+    drawPlayer(game.getPlayer(), GREEN);
+    pintarParticulas(game.getEnemies(), RED);
+    pintarParticulas(game.getBullets(), BLACK);
+    EndDrawing();
+}
+
+void gameOverLoop(Game &game) {
+    ClearBackground(RED);
+    BeginDrawing();
+    DrawText("HAS PERDIDO\nAHAHAHAHHAJAÑHJALK", 30, 20, 20, BLACK);
+    std::string pointsLabel = "PERO....\nHas conseguido " + std::to_string(game.getPlayerPoints()) + " Puntos";
+
+    DrawText(pointsLabel.c_str(), 30, 70, 20, BLACK);
+    DrawText("Pulsa [R] para reiniciar\nPulsa [ESC] para salir", 30, 120, 20, BLACK);
+
+    if (IsKeyDown(KEY_R)) {
+        game.restart();
+    }
+    EndDrawing();
 }
 
 void pintarParticula(const Particula &p, Color c) {

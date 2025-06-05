@@ -51,7 +51,7 @@ ConjuntoParticulas::ConjuntoParticulas(int n) {
     utiles = capacidad = 0;
     set = nullptr;
     if (n > 0) {
-        utiles = capacidad = n;
+        capacidad = n;
         reservaMemoria(capacidad);
     }
 }

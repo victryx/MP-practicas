@@ -14,7 +14,7 @@ private:
     ConjuntoParticulas enemies; // Conjunto de enemigos (naves)
     ConjuntoParticulas bullets; // Conjunto de proyectiles (disparos)
     Particula player;           // Partícula jugador (base)
-    Vector2D playerSpawnPoint;  // Posición de aparición del jugador (calculada en el constructor según dimensiones de la pantalla en el constructor)
+    Vector2D playerSpawnPoint;  // Posición de aparición del jugador (calculada en el constructor según dimensiones de la pantalla)
 
     int screenWidth;            // Anchura de la pantalla
     int screenHeight;           // Altura de la pantalla
@@ -38,11 +38,11 @@ private:
     float shootCooldown;        // Intervalo entre disparos
     float enemySpawnCooldown;   // Intervalo de aparición de enemigos
 
-    float lastShot = 0;         // Momento en el que se realizó el ultimo disparo
-    float lastSpawned = 0;      // Momento en el que apareció el último enemigo
+    float lastShotTime = 0;         // Momento en el que se realizó el ultimo disparo
+    float lastSpawnedTime = 0;      // Momento en el que apareció el último enemigo
 
     /// @brief Tiempo transcurrido en segundos desde la creación de este objeto
-    float getElapsedTime();
+    float getElapsedTime() const;
 
     /// @brief Actualiza la posición del jugador según la entrada recibida
     void updatePlayer(float movement);
@@ -69,9 +69,11 @@ private:
     /// @brief Controla las colisiones entre balas y enemigos
     void manageCollisions();
 
-    /// @brief 
+    /// @brief Dispara una bala
     void fireBullet();
 
+    /// @brief Cuando se destruye un enemigo, aumenta los puntos, aumenta la
+    ///        velocidad de aparición de enemigos
     void onEnemyDestroyed();
 
 public:
@@ -79,6 +81,9 @@ public:
     /// @brief Constructor por defecto, inicia los parámetros del juego a las 
     ///        constantes definidas en params.h
     Game(int _screenWidth = MAX_X, int _screenHeight = MAX_Y);
+
+    /// @brief Reinicia el estado del juego
+    void restart();
 
     /// @brief Devuelve una referencia constante al conjunto de enemigos
     const ConjuntoParticulas &getEnemies() const;
@@ -107,6 +112,7 @@ public:
     /// @brief Procesa la lectura de las teclas y actualiza el estado de los objetos,
     ///        se ejecuta una vez en cada frame
     void update(int inputDirection, bool inputFire);
+
 };
 
 #endif

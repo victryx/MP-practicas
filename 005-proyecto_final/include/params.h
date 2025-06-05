@@ -19,14 +19,14 @@ const int   PLAYER_LIVES            = 5;
 const float PLAYER_VELOCITY         = 8;
 
 const float BULLET_VELOCITY         = -8;
-const float BULLET_RADIUS           = 2;
+const float BULLET_RADIUS           = 3;
 
 const float ENEMY_MAX_VELOCITY_X    = 1.5;
 const float ENEMY_MIN_VELOCITY_X    = -1.5;
 const float ENEMY_MAX_VELOCITY_Y    = 3;
 const float ENEMY_MIN_VELOCITY_Y    = 1;
 const float ENEMY_SPAWN_OFFSET_Y    = 10;
-const float ENEMY_RADIUS            = 7;
+const float ENEMY_RADIUS            = 9;
 
 const float SHOOT_COOLDOWN          = .35;
 const float ENEMY_SPAWN_COOLDOWN    = 3.5;
