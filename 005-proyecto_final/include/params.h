@@ -28,7 +28,7 @@ const float ENEMY_MIN_VELOCITY_Y    = 1;
 const float ENEMY_SPAWN_OFFSET_Y    = 10;
 const float ENEMY_RADIUS            = 7;
 
-const float SHOOT_COOLDOWN          = .35f;
+const float SHOOT_COOLDOWN          = .35;
 const float ENEMY_SPAWN_COOLDOWN    = 3.5;
 
 #endif

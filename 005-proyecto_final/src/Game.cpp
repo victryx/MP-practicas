@@ -13,7 +13,7 @@ void Game::updatePlayer(float movement) {
     Vector2D newPos = player.getPos();
     newPos.sumarX(movement);
     player.setPos(newPos);
-    player.wrap();  // cuando alcanza el borde derecho, aparece por el izquierdo (y viceversa)
+    player.wrap();  // cuando alcanza el borde derecho, aparece por el izquierdo, y viceversa
 }
 
 bool bulletOutOfBounds(const Particula &bullet) {
@@ -46,7 +46,7 @@ void Game::updateEnemies() {
             enemies.borrar(i);                      // se elimina al enemigo del juego
             playerLives--;                          // se resta una vida al jugador
 
-            active = playerLives != 0;              // si las vidas se quedan a cero, termina el juego :(
+            active = playerLives > 0;              // si las vidas se quedan a cero, termina el juego :(
         }
     }
 }
@@ -127,7 +127,9 @@ Game::Game(int _screenWidth, int _screenHeight)
     enemySpawnCooldown = ENEMY_SPAWN_COOLDOWN;
 
     playerSpawnPoint = Vector2D(screenWidth / 2.f, screenHeight - 40.f);
+    player = Particula(1);  // en ningún momento usamos el radio del jugador
     player.setPos(playerSpawnPoint);
+
     startTime = std::chrono::high_resolution_clock::now();
 }
 
@@ -164,14 +166,14 @@ int Game::getPlayerPoints() const {
 }
 
 void Game::update(int inputDirection, bool inputFire) {
-    updatePlayer(inputDirection * playerVelocity);
+    updatePlayer(inputDirection * playerVelocity); // Mueve el jugador
 
     if (inputFire) {
-        fireBullet();
+        fireBullet();   
     }
 
-    updateBullets();
-    updateEnemies();
-    manageCollisions();
-    spawnEnemy();
+    updateBullets();   // Mueve las balas y elimina las que están fuera de límites
+    updateEnemies();   // Mueve los enemigos y elimina los que han alcanzado su objetivo
+    manageCollisions();// Gestiona colisiones entre balas y enemigos
+    spawnEnemy();      // Intenta generar un nuevo enemigo
 }
